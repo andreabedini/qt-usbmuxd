@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    name: ${{ matrix.os }} / Qt ${{ matrix.qt }} / ${{ matrix.libs }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        qt: ["6.8.3"]
+        libs: [static, shared]
+        include:
+          # The oldest Qt we support.
+          - os: ubuntu-latest
+            qt: "6.5.3"
+            libs: static
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ matrix.qt }}
+          cache: true
+
+      - uses: ilammy/msvc-dev-cmd@v1
+        if: runner.os == 'Windows'
+
+      - name: Install Ninja
+        uses: seanmiddleditch/gha-setup-ninja@v5
+
+      - name: Configure
+        shell: bash
+        run: >
+          cmake -S . -B build -G Ninja
+          -DCMAKE_BUILD_TYPE=Debug
+          -DBUILD_SHARED_LIBS=${{ matrix.libs == 'shared' && 'ON' || 'OFF' }}
+          -DCMAKE_INSTALL_PREFIX="$PWD/install"
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Test
+        shell: bash
+        run: |
+          # Shared builds on Windows need the DLL next to the tests.
+          if [ "$RUNNER_OS" = Windows ]; then export PATH="$PWD/build/src:$PATH"; fi
+          ctest --test-dir build --output-on-failure --timeout 120
+
+      - name: Install
+        run: cmake --install build
+
+      - name: Use the installed package
+        shell: bash
+        run: |
+          cmake -S tests/package -B build-package -G Ninja -DCMAKE_PREFIX_PATH="$PWD/install"
+          cmake --build build-package
+          if [ "$RUNNER_OS" = Windows ]; then export PATH="$PWD/install/bin:$PATH"; fi
+          ./build-package/package-test

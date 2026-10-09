@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>DeviceList</key>
+	<array>
+		<dict>
+			<key>DeviceID</key>
+			<integer>3</integer>
+			<key>MessageType</key>
+			<string>Attached</string>
+			<key>Properties</key>
+			<dict>
+				<key>ConnectionSpeed</key>
+				<integer>480000000</integer>
+				<key>ConnectionType</key>
+				<string>USB</string>
+				<key>DeviceID</key>
+				<integer>3</integer>
+				<key>LocationID</key>
+				<integer>336592896</integer>
+				<key>ProductID</key>
+				<integer>4776</integer>
+				<key>SerialNumber</key>
+				<string>00008030-001A2B3C4D5E6F70</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>DeviceID</key>
+			<integer>4</integer>
+			<key>MessageType</key>
+			<string>Attached</string>
+			<key>Properties</key>
+			<dict>
+				<key>ConnectionType</key>
+				<string>Network</string>
+				<key>DeviceID</key>
+				<integer>4</integer>
+				<key>EscapedFullServiceName</key>
+				<string>aa:bb:cc:dd:ee:ff@fe80::1._apple-mobdev2._tcp.local.</string>
+				<key>InterfaceIndex</key>
+				<integer>12</integer>
+				<key>NetworkAddress</key>
+				<data>
+				HB4AAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGQ==
+				</data>
+				<key>SerialNumber</key>
+				<string>00008030-001A2B3C4D5E6F70</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>
